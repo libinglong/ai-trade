@@ -8,14 +8,19 @@
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>成交记录品种汇总</h1>
-    <div class="sub">数据来源：<span id="src-name"></span> · 按品种识别「建仓 → 清仓」往返交易</div>
+  <header class="masthead">
+    <div class="masthead-top">
+      <h1>成交记录品种汇总</h1>
+      <div>
+        <div class="sub">数据来源：<span id="src-name"></span></div>
+        <div class="sub-note">按品种识别「建仓 → 清仓」往返交易，货值与保证金单位为「万」</div>
+      </div>
+    </div>
     <div id="stat-cards"></div>
   </header>
   <div id="summary-table"></div>
   <div id="trade-list"></div>
-  <div class="foot">由 build_report.py 生成</div>
+  <footer class="foot">由 build_report.py 生成</footer>
 </div>
 <script>window.REPORT_DATA = @DATA@;</script>
 <script>@JS@</script>

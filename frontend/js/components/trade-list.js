@@ -1,11 +1,12 @@
 /* 交易明细列表组件（按品种分组） */
 window.TradeList = (function () {
   function render(el, varieties) {
-    var card = document.createElement('div');
-    card.className = 'card';
+    var section = document.createElement('section');
+    section.className = 'section';
     var h2 = document.createElement('h2');
-    h2.textContent = '交易明细（点击查看详情）';
-    card.appendChild(h2);
+    h2.className = 'section-title';
+    h2.textContent = '交易明细（点击展开）';
+    section.appendChild(h2);
 
     varieties.forEach(function (v) {
       var block = document.createElement('div');
@@ -18,9 +19,9 @@ window.TradeList = (function () {
         '<span class="vname">' + Fmt.esc(v.name) + '</span>' +
         '<span class="vcode">' + Fmt.esc(v.code) + '</span>' +
         '<span class="vmeta">' +
-          '<span>交易 ' + v.ntrades + ' 笔</span>' +
-          '<span>开 ' + Fmt.lots(v.open) + ' 手</span>' +
-          '<span>平 ' + Fmt.lots(v.close) + ' 手</span>' +
+          '<span>交易 <span class="num">' + v.ntrades + '</span> 笔</span>' +
+          '<span>开 <span class="num">' + Fmt.lots(v.open) + '</span> 手</span>' +
+          '<span>平 <span class="num">' + Fmt.lots(v.close) + '</span> 手</span>' +
           '<span class="' + plCls + '">盈亏 ' + Fmt.money(v.pl) + '</span>' +
         '</span>';
       block.appendChild(head);
@@ -29,10 +30,10 @@ window.TradeList = (function () {
         block.appendChild(TradeItem.render(t));
       });
 
-      card.appendChild(block);
+      section.appendChild(block);
     });
 
-    el.appendChild(card);
+    el.appendChild(section);
   }
 
   return { render: render };

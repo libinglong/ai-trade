@@ -1,11 +1,12 @@
 /* 品种汇总表组件 */
 window.SummaryTable = (function () {
   function render(el, varieties, totals) {
-    var card = document.createElement('div');
-    card.className = 'card';
+    var section = document.createElement('section');
+    section.className = 'section';
     var h2 = document.createElement('h2');
+    h2.className = 'section-title';
     h2.textContent = '品种汇总';
-    card.appendChild(h2);
+    section.appendChild(h2);
 
     var table = document.createElement('table');
     var thead = document.createElement('thead');
@@ -36,8 +37,13 @@ window.SummaryTable = (function () {
     tbody.appendChild(trTotal);
 
     table.appendChild(tbody);
-    card.appendChild(table);
-    el.appendChild(card);
+
+    var tableWrap = document.createElement('div');
+    tableWrap.className = 'table-wrap';
+    tableWrap.appendChild(table);
+    section.appendChild(tableWrap);
+
+    el.appendChild(section);
   }
 
   return { render: render };

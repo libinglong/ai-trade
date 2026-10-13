@@ -1,46 +1,147 @@
+/* 成交记录品种汇总 —— 暗色「交易终端」风格
+   色彩语义：红涨（盈利）绿跌（亏损），其余全部中性灰，颜色只用于表达盈亏。
+*/
+:root{
+  --bg:#0e131b;          /* 深蓝黑底 */
+  --panel:#151b24;       /* 面板 */
+  --panel-2:#1b2230;     /* 悬停/抬升 */
+  --line:#242d3a;        /* 细线 */
+  --line-strong:#303a4a; /* 强调线 */
+  --ink:#e6eaf2;         /* 主文字 */
+  --ink-dim:#8b95a7;     /* 次级 */
+  --ink-faint:#5b6575;   /* 三级 */
+  --up:#ff5252;          /* 涨/盈利（红） */
+  --down:#3dd68c;        /* 跌/亏损（绿） */
+  --ui:"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  --disp:"Bahnschrift","DIN Alternate","Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  --num:"Cascadia Mono","SF Mono","Consolas","Roboto Mono",monospace;
+}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;background:#f5f6f8;color:#1f2430;padding:24px 16px;line-height:1.5}
-.wrap{max-width:1100px;margin:0 auto}
-header{background:#fff;border:1px solid #e6e8ec;border-radius:12px;padding:20px 24px;margin-bottom:16px}
-h1{font-size:20px;font-weight:700}
-.sub{color:#8a8f99;font-size:13px;margin-top:4px}
-.stats{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
-.stat{background:#f7f8fa;border:1px solid #eceef2;border-radius:10px;padding:10px 18px;min-width:120px}
-.stat .k{font-size:12px;color:#8a8f99}
-.stat .v{font-size:22px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
-.pos{color:#d9403a}.neg{color:#0a8f4f}
-.card{background:#fff;border:1px solid #e6e8ec;border-radius:12px;margin-bottom:16px;overflow:hidden}
-.card>h2{font-size:15px;padding:14px 20px;border-bottom:1px solid #eef0f3}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--ui);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:40px 20px 64px}
+
+/* 顶部 */
+.masthead{padding-bottom:28px;border-bottom:1px solid var(--line-strong)}
+.masthead-top{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+h1{font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:.02em}
+.sub{color:var(--ink-dim);font-size:13px}
+.sub-note{color:var(--ink-faint);font-size:12px;margin-top:2px}
+
+/* 英雄区：总盈亏 */
+.stats{margin-top:28px}
+.hero{margin-bottom:24px}
+.hero-label{font-size:13px;color:var(--ink-dim)}
+.hero-value{
+  font-family:var(--num);
+  font-size:clamp(44px,8vw,64px);
+  font-weight:600;
+  line-height:1.1;
+  letter-spacing:.01em;
+  font-variant-numeric:tabular-nums;
+}
+
+/* 统计条 */
+.stat-strip{display:flex;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{flex:1;padding:16px 20px;min-width:0}
+.stat+.stat{border-left:1px solid var(--line)}
+.stat-k{display:block;font-size:12px;color:var(--ink-faint)}
+.stat-v{display:block;font-family:var(--num);font-size:22px;font-weight:600;color:var(--ink);margin-top:4px;font-variant-numeric:tabular-nums}
+
+/* 区块 */
+.section{margin-top:28px}
+.section-title{
+  font-size:13px;color:var(--ink-faint);
+  padding-bottom:10px;border-bottom:1px solid var(--line);
+  margin-bottom:0;font-weight:600;letter-spacing:.04em;
+}
+
+/* 表格 */
+.table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{padding:9px 12px;text-align:left;border-bottom:1px solid #eef0f3;vertical-align:middle}
-th{background:#fafbfc;color:#6a7080;font-weight:600;font-size:12px}
-td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-tr.total td{background:#fafbfc;font-weight:700;border-top:1px solid #e6e8ec}
-.variety-block{border-bottom:1px solid #eef0f3}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+th{font-family:var(--disp);color:var(--ink-faint);font-weight:600;font-size:12px;letter-spacing:.02em}
+td{color:var(--ink)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--num)}
+tbody tr:hover{background:var(--panel-2)}
+tr.total td{background:var(--panel-2);font-weight:700;border-top:1px solid var(--line-strong)}
+tr.total td.num{font-family:var(--num)}
+
+/* 品种块 */
+.variety-block{border-bottom:1px solid var(--line)}
 .variety-block:last-child{border-bottom:none}
-.variety-head{display:flex;align-items:center;gap:10px;padding:12px 20px;background:#fafbfc;border-bottom:1px solid #eef0f3;flex-wrap:wrap}
-.variety-head .vname{font-weight:700;font-size:14px}
-.variety-head .vcode{color:#8a8f99;font-size:12px}
-.variety-head .vmeta{margin-left:auto;font-size:13px;color:#6a7080;display:flex;gap:16px;flex-wrap:wrap}
-details{border-bottom:1px solid #eef0f3}
+.variety-head{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 20px;background:var(--panel);
+  border-bottom:1px solid var(--line);flex-wrap:wrap;
+}
+.variety-head .vname{font-weight:600;font-size:15px}
+.variety-head .vcode{color:var(--ink-faint);font-family:var(--num);font-size:12px}
+.variety-head .vmeta{margin-left:auto;font-size:13px;color:var(--ink-dim);display:flex;gap:18px;flex-wrap:wrap}
+.variety-head .vmeta .num{font-family:var(--num);color:var(--ink)}
+.variety-head .vmeta .pos,
+.variety-head .vmeta .neg{font-family:var(--num);font-variant-numeric:tabular-nums}
+
+/* 交易条目 */
+details{border-bottom:1px solid var(--line)}
 details:last-child{border-bottom:none}
-summary{cursor:pointer;list-style:none;padding:10px 20px;font-size:13px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-summary:hover{background:#fafbfc}
+summary{
+  cursor:pointer;list-style:none;
+  padding:11px 20px;font-size:13px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+summary:hover{background:var(--panel-2)}
 summary::-webkit-details-marker{display:none}
-.caret{color:#a0a5b0;transition:transform .15s;display:inline-block}
+summary:focus-visible{outline:2px solid var(--ink-dim);outline-offset:-2px}
+.caret-wrap{display:inline-flex;align-items:center;width:14px;color:var(--ink-faint)}
+.caret{transition:transform .15s ease;display:inline-block;font-size:11px}
 details[open] .caret{transform:rotate(90deg)}
-details[open]>summary{background:#f7f8fa}
-.caret-wrap{display:inline-flex;align-items:center}
-.trade-date{font-weight:600}
-.trade-contracts{display:inline-flex;gap:4px;flex-wrap:wrap}
-.contract-tag{background:#eef1f6;border-radius:6px;padding:1px 7px;font-size:11px;color:#4a5265}
-.trade-meta{color:#6a7080}
-.trade-pl{margin-left:auto;font-weight:700}
-.detail{padding:2px 20px 16px}
+details[open]>summary{background:var(--panel)}
+.trade-date{font-family:var(--num);font-weight:600;color:var(--ink)}
+.trade-contracts{display:inline-flex;gap:5px;flex-wrap:wrap}
+.contract-tag{
+  background:var(--panel-2);border:1px solid var(--line);
+  border-radius:5px;padding:0 7px;font-size:11px;
+  font-family:var(--num);color:var(--ink-dim);
+}
+.trade-spacer{flex:1;min-width:8px}
+.trade-meta{color:var(--ink-dim);font-family:var(--num)}
+.trade-pl{margin-left:auto;font-weight:700;font-family:var(--num);font-variant-numeric:tabular-nums}
+
+/* 详情表 */
+.detail{padding:2px 20px 18px}
 .detail-table td,.detail-table th{font-size:13px}
-.badge{display:inline-block;border-radius:5px;padding:0 6px;font-size:11px;line-height:18px}
-.badge.open{background:#e8f3ff;color:#1668b3}
-.badge.close{background:#fff3e6;color:#c26a00}
-.badge.buy{background:#fdeaea;color:#d9403a}
-.badge.sell{background:#e9f7ef;color:#0a8f4f}
-.foot{text-align:center;color:#a0a5b0;font-size:12px;padding:16px}
+
+/* 徽章 */
+.badge{display:inline-block;border-radius:5px;padding:0 7px;font-size:11px;line-height:19px;font-weight:600}
+.badge.open{background:rgba(139,149,167,.14);color:var(--ink-dim)}
+.badge.close{background:rgba(139,149,167,.14);color:var(--ink-dim)}
+.badge.buy{background:rgba(255,82,82,.13);color:var(--up)}
+.badge.sell{background:rgba(61,214,140,.13);color:var(--down)}
+
+/* 盈亏颜色语义 */
+.pos{color:var(--up)}
+.neg{color:var(--down)}
+
+.foot{text-align:center;color:var(--ink-faint);font-size:12px;padding:40px 0 0}
+
+:focus-visible{outline:2px solid var(--ink-dim);outline-offset:2px}
+
+@media (max-width:640px){
+  .stat-strip{flex-wrap:wrap}
+  .stat{flex:1 1 50%;border-left:none;border-bottom:1px solid var(--line)}
+  .stat:nth-child(odd){border-right:1px solid var(--line)}
+  .hero-value{font-size:40px}
+  .variety-head .vmeta{margin-left:0}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
