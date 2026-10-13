@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>成交记录品种汇总</title>
+<style>@CSS@</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>成交记录品种汇总</h1>
+    <div class="sub">数据来源：<span id="src-name"></span> · 按品种识别「建仓 → 清仓」往返交易</div>
+    <div id="stat-cards"></div>
+  </header>
+  <div id="summary-table"></div>
+  <div id="trade-list"></div>
+  <div class="foot">由 build_report.py 生成</div>
+</div>
+<script>window.REPORT_DATA = @DATA@;</script>
+<script>@JS@</script>
+</body>
+</html>
